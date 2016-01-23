@@ -12,147 +12,158 @@ public class SubMatrixTest {
 
     @Test
     public void submatrixOf_emptyMatrixTest() {
-        int[][] matrix = new int[][]{};
+        Integer[][] matrix = new Integer[][]{};
 
-        int[][] result = MatrixSpiral.submatrix(matrix);
+        Integer[][] result = MatrixSpiral.submatrix(matrix);
 
-        assertThat(result).hasSize(0);
+        assertThat(result).isNull();
     }
 
     @Test
     public void submatrixOf_emptyRowTest() {
-        int[][] matrix = new int[][]{
-            new int[]{}
+        Integer[][] matrix = new Integer[][]{
+            new Integer[]{}
         };
 
-        int[][] result = MatrixSpiral.submatrix(matrix);
+        Integer[][] result = MatrixSpiral.submatrix(matrix);
 
         assertThat(result).isNull();
     }
 
     @Test
     public void submatrixOf_SingleElementRowTest() {
-        int[][] matrix = new int[][]{
-            new int[]{1}
+        Integer[][] matrix = new Integer[][]{
+            new Integer[]{1}
         };
 
-        int[][] result = MatrixSpiral.submatrix(matrix);
+        Integer[][] result = MatrixSpiral.submatrix(matrix);
 
         assertThat(result).isNull();
     }
 
     @Test
     public void submatrixOf_SingleRow2ElementsTest() {
-        int[][] matrix = new int[][]{
-            new int[]{1, 2}
+        Integer[][] matrix = new Integer[][]{
+            new Integer[]{1, 2}
         };
 
-        int[][] result = MatrixSpiral.submatrix(matrix);
+        Integer[][] result = MatrixSpiral.submatrix(matrix);
 
         assertThat(result).isNull();
     }
 
     @Test
     public void submatrixOf_SingleRowMultipleElementsTest() {
-        int[][] matrix = new int[][]{
-            new int[]{1, 2, 3}
+        Integer[][] matrix = new Integer[][]{
+            new Integer[]{1, 2, 3}
         };
 
-        int[][] result = MatrixSpiral.submatrix(matrix);
+        Integer[][] result = MatrixSpiral.submatrix(matrix);
 
         assertThat(result).isNull();
     }
 
     @Test
     public void submatrixOf_SingleRowMultipleElementsTest2() {
-        int[][] matrix = new int[][]{
-            new int[]{1, 2, 3, 4}
+        Integer[][] matrix = new Integer[][]{
+            new Integer[]{1, 2, 3, 4}
         };
 
-        int[][] result = MatrixSpiral.submatrix(matrix);
+        Integer[][] result = MatrixSpiral.submatrix(matrix);
 
         assertThat(result).isNull();
     }
 
     @Test
     public void submatrixOf_SingleColumn2ElementsTest() {
-        int[][] matrix = new int[][]{
-            new int[]{1},
-            new int[]{2}
+        Integer[][] matrix = new Integer[][]{
+            new Integer[]{1},
+            new Integer[]{2}
         };
 
-        int[][] result = MatrixSpiral.submatrix(matrix);
+        Integer[][] result = MatrixSpiral.submatrix(matrix);
 
         assertThat(result).isNull();
     }
 
     @Test
     public void submatrixOf_SingleColumnMultipleElementsTest() {
-        int[][] matrix = new int[][]{
-            new int[]{1},
-            new int[]{2},
-            new int[]{3}
+        Integer[][] matrix = new Integer[][]{
+            new Integer[]{1},
+            new Integer[]{2},
+            new Integer[]{3}
         };
 
-        int[][] result = MatrixSpiral.submatrix(matrix);
+        Integer[][] result = MatrixSpiral.submatrix(matrix);
 
-        assertThat(result).hasSize(1);
-        assertThat(result[0]).containsExactly(2);
+        assertThat(result).isNull();
     }
 
     @Test
     public void submatrixOf_SingleColumnMultipleElementsTest2() {
-        int[][] matrix = new int[][]{
-            new int[]{1},
-            new int[]{2},
-            new int[]{3},
-            new int[]{4}
+        Integer[][] matrix = new Integer[][]{
+            new Integer[]{1},
+            new Integer[]{2},
+            new Integer[]{3},
+            new Integer[]{4}
         };
 
-        int[][] result = MatrixSpiral.submatrix(matrix);
+        Integer[][] result = MatrixSpiral.submatrix(matrix);
 
-        assertThat(result).hasSize(2);
-        assertThat(result[0]).containsExactly(2);
-        assertThat(result[1]).containsExactly(3);
-
-    }
-
-    @Test
-    public void submatrixOf_3by3ElementsTest() {
-        int[][] matrix = new int[][]{
-            new int[]{1, 2, 3},
-            new int[]{4, 5, 6},
-            new int[]{7, 8, 9}
-        };
-
-        int[][] result = MatrixSpiral.submatrix(matrix);
-
-        assertThat(result).hasSize(1);
-        assertThat(result[0]).containsExactly(5);
+        assertThat(result).isNull();
     }
 
     @Test
     public void submatrixOf_2by3ElementsTest() {
-        int[][] matrix = new int[][]{
-            new int[]{1, 2, 3},
-            new int[]{4, 5, 6},};
+        Integer[][] matrix = new Integer[][]{
+            new Integer[]{1, 2, 3},
+            new Integer[]{4, 5, 6},};
 
-        int[][] result = MatrixSpiral.submatrix(matrix);
+        Integer[][] result = MatrixSpiral.submatrix(matrix);
 
         assertThat(result).isNull();
     }
 
     @Test
     public void submatrixOf_3by2ElementsTest() {
-        int[][] matrix = new int[][]{
-            new int[]{1, 2},
-            new int[]{3, 4},
-            new int[]{5, 6}
+        Integer[][] matrix = new Integer[][]{
+            new Integer[]{1, 2},
+            new Integer[]{3, 4},
+            new Integer[]{5, 6}
         };
 
-        int[][] result = MatrixSpiral.submatrix(matrix);
+        Integer[][] result = MatrixSpiral.submatrix(matrix);
+
+        assertThat(result).isNull();
+    }
+
+    @Test
+    public void submatrixOf_3by3ElementsTest() {
+        Integer[][] matrix = new Integer[][]{
+            new Integer[]{1, 2, 3},
+            new Integer[]{4, 5, 6},
+            new Integer[]{7, 8, 9}
+        };
+
+        Integer[][] result = MatrixSpiral.submatrix(matrix);
 
         assertThat(result).hasSize(1);
-        assertThat(result[0]).containsExactly(3, 4);
+        assertThat(result[0]).containsExactly(5);
+    }
+
+    @Test
+    public void submatrixOf_4by5ElementsTest() {
+        Integer[][] matrix = new Integer[][]{
+            new Integer[]{1, 2, 3, 4, 5},
+            new Integer[]{6, 7, 8, 9, 10},
+            new Integer[]{11, 12, 13, 14, 15},
+            new Integer[]{16, 17, 18, 19, 20}
+        };
+
+        Integer[][] result = MatrixSpiral.submatrix(matrix);        
+
+        assertThat(result).hasSize(2);
+        assertThat(result[0]).containsExactly(7, 8, 9);
+        assertThat(result[1]).containsExactly(12, 13, 14);
     }
 }
