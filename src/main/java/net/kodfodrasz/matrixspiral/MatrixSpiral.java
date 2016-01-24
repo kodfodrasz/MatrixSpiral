@@ -1,26 +1,23 @@
 package net.kodfodrasz.matrixspiral;
 
-import java.lang.reflect.Array;
-import java.util.Iterator;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.function.IntFunction;
-import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public class MatrixSpiral {
 
-    public static <T> T[] spiral(T[][] matrix) {
-        IntFunction arrayAllocator =  i -> allocateGenericArray((Class<T[]>)matrix.getClass().getComponentType(), i);
-
-        
-        return (T[])spiral(matrix, Stream.empty()).toArray(arrayAllocator);
+    public static <T> List<T> spiral(List<List<T>> matrix) {
+        return spiral(matrix, Stream.empty()).collect(Collectors.toList());
     }
 
-    private static <T> Stream<T> spiral(T[][] matrix, Stream<T> head) {
-        T[][] remainder = submatrix(matrix);
-        Stream<T> visited = Stream.concat(head, Stream.of(edgeItemsClockwise(matrix)));
+    private static <T> Stream<T> spiral(List<List<T>> matrix, Stream<T> head) {
+        List<List<T>> remainder = submatrix(matrix);
+        Stream<T> visited = Stream.concat(head, edgeItemsClockwise(matrix).stream());
 
         if (remainder == null) {
             return visited;
@@ -29,65 +26,38 @@ public class MatrixSpiral {
         }
     }
 
-    public static <T> T[] edgeItemsClockwise(T[][] matrix) {
-        IntFunction outerArrayAllocator = i -> allocateGenericArray((Class<T[][]>)matrix.getClass(), i);
-        IntFunction innerArrayAllocator = i -> allocateGenericArray((Class<T[]>)matrix.getClass().getComponentType(), i);
-        
-        Supplier emptyArray = () -> (T[])innerArrayAllocator.apply(0);
-        
-        return (T[]) concatStreams( // this is AIDS 
+    public static <T> List<T> edgeItemsClockwise(List<List<T>> matrix) {
+        return concatStreams( // this is AIDS 
                 // first row
-                Stream.of(Stream.of(matrix).findFirst().orElseGet(emptyArray)),
+                matrix.stream().findFirst().orElseGet(ArrayList<T>::new).stream(),
                 // internal row -> { row[last] } 
-                Stream.of(matrix).skip(1).limit(Math.max(0, matrix.length - 2))
-                .flatMap(arr -> reverseStreamOfArray(arr).limit(1)),
+                matrix.stream().skip(1).limit(Math.max(0, matrix.size() - 2))
+                .flatMap(arr -> reverseStream(arr.stream()).limit(1)),
                 // last row, reversed
-                reverseStreamOfArray(Stream.of(matrix).skip(Math.max(1, matrix.length - 1)).findFirst().orElseGet(emptyArray)),
+                reverseStream(matrix.stream().skip(Math.max(1, matrix.size() - 1)).findFirst().orElseGet(ArrayList<T>::new).stream()),
                 // reverse order of internal rows, then: internal row -> { row[first] if row has nultiple elements } 
-                reverseStreamOfArray(Stream.of(matrix).skip(1).limit(Math.max(0, matrix.length - 2)).toArray(outerArrayAllocator))
-                .flatMap(arr -> reverseStreamOfArray((T[])arr).skip(Math.max(1, ((T[])arr).length - 1)).limit(1))
-        ).toArray(innerArrayAllocator);
+                reverseStream(matrix.stream().skip(1).limit(Math.max(0, matrix.size() - 2)).collect(Collectors.toList()).stream()
+                .flatMap(arr -> reverseStream(arr.stream()).skip(Math.max(1, arr.size() - 1)).limit(1)))
+        ).collect(Collectors.toList());
     }
 
-    public static <T> T[][] submatrix(T[][] matrix) {
-        IntFunction outerArrayAllocator = i -> allocateGenericArray((Class<T[][]>)matrix.getClass(), i);
-        IntFunction innerArrayAllocator = i -> allocateGenericArray((Class<T[]>)matrix.getClass().getComponentType(), i);
-        
-        T[][] result = (T[][])Stream.of(matrix)
+    public static <T> List<List<T>> submatrix(List<List<T>> matrix) {
+        List<List<T>> result = matrix.stream()
                 .skip(1)
-                .limit(Math.max(0, matrix.length - 2))
-                .map(arr -> (T[])Stream.of(arr).skip(1).limit(Math.max(0, arr.length - 2)).toArray(innerArrayAllocator))
-                .filter(arr -> ((T[])arr).length != 0)
-                .toArray(outerArrayAllocator);
-        return result.length > 0 ? result : null;
+                .limit(Math.max(0, matrix.size() - 2))
+                .map(arr -> arr.stream().skip(1).limit(Math.max(0, arr.size() - 2)).collect(Collectors.toList()))
+                .filter(arr -> !arr.isEmpty())
+                .collect(Collectors.toList());
+        return result.size() > 0 ? result : null;
     }
 
-    public static <T> Stream<T> reverseStreamOfArray(T[] arr) {
-        Iterator<T> reverseIntArrayIterator = new Iterator<T>() {
-            int idx = arr.length;
+    public static <T> Stream<T> reverseStream(Stream<T> arr) {
+        ArrayDeque<T> a = arr.collect(Collectors.toCollection(ArrayDeque<T>::new));
 
-            @Override
-            public boolean hasNext() {
-                return 0 < idx;
-            }
-
-            @Override
-            public T next() {
-                return arr[--idx];
-            }
-        };
-
-        return StreamSupport.stream(
-                Spliterators.spliteratorUnknownSize(reverseIntArrayIterator, Spliterator.ORDERED), false);
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(a.descendingIterator(), Spliterator.ORDERED), false);
     }
 
     public static <T> Stream<T> concatStreams(Stream<T>... streams) {
         return Stream.of(streams).reduce(Stream.empty(), (a, b) -> Stream.concat(a, b));
     }
-
-    public static <E> E[] allocateGenericArray(Class<E[]> clazz, int length) {
-        // AIDS intensifies!
-        E[] a = (E[])clazz.cast(Array.newInstance(clazz.getComponentType(), length));  
-        return a;
-    } 
 }

@@ -1,5 +1,7 @@
 package net.kodfodrasz.matrixspiral.test;
 
+import java.util.Arrays;
+import java.util.List;
 import net.kodfodrasz.matrixspiral.MatrixSpiral;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
@@ -12,155 +14,155 @@ public class EdgeItemsClockwiseTest {
 
     @Test
     public void edgeitemsOf_emptyMatrixTest() {
-        Integer[][] matrix = new Integer[][]{};
+        List<List<Integer>> matrix = Arrays.asList();
 
-        Integer[] result = MatrixSpiral.edgeItemsClockwise(matrix);
+        List<Integer> result = MatrixSpiral.edgeItemsClockwise(matrix);
 
         assertThat(result).hasSize(0);
     }
 
     @Test
     public void edgeitemsOf_emptyRowTest() {
-        Integer[][] matrix = new Integer[][]{
-            new Integer[]{}
-        };
+        List<List<Integer>> matrix = Arrays.asList(
+                Arrays.asList()
+        );
 
-        Integer[] result = MatrixSpiral.edgeItemsClockwise(matrix);
+        List<Integer> result = MatrixSpiral.edgeItemsClockwise(matrix);
 
         assertThat(result).hasSize(0);
     }
 
     @Test
     public void edgeitemsOf_SingleElementRowTest() {
-        Integer[][] matrix = new Integer[][]{
-            new Integer[]{1}
-        };
+        List<List<Integer>> matrix = Arrays.asList(
+                Arrays.asList(1)
+        );
 
-        Integer[] result = MatrixSpiral.edgeItemsClockwise(matrix);
+        List<Integer> result = MatrixSpiral.edgeItemsClockwise(matrix);
 
         assertThat(result).containsExactly(1);
     }
 
     @Test
     public void edgeitemsOf_SingleRow2ElementsTest() {
-        Integer[][] matrix = new Integer[][]{
-            new Integer[]{1, 2}
-        };
+        List<List<Integer>> matrix = Arrays.asList(
+                Arrays.asList(1, 2)
+        );
 
-        Integer[] result = MatrixSpiral.edgeItemsClockwise(matrix);
+        List<Integer> result = MatrixSpiral.edgeItemsClockwise(matrix);
 
         assertThat(result).containsExactly(1, 2);
     }
 
     @Test
     public void edgeitemsOf_SingleRowMultipleElementsTest() {
-        Integer[][] matrix = new Integer[][]{
-            new Integer[]{1, 2, 3}
-        };
+        List<List<Integer>> matrix = Arrays.asList(
+                Arrays.asList(1, 2, 3)
+        );
 
-        Integer[] result = MatrixSpiral.edgeItemsClockwise(matrix);
+        List<Integer> result = MatrixSpiral.edgeItemsClockwise(matrix);
 
         assertThat(result).containsExactly(1, 2, 3);
     }
 
     @Test
     public void edgeitemsOf_SingleRowMultipleElementsTest2() {
-        Integer[][] matrix = new Integer[][]{
-            new Integer[]{1, 2, 3, 4}
-        };
+        List<List<Integer>> matrix = Arrays.asList(
+                Arrays.asList(1, 2, 3, 4)
+        );
 
-        Integer[] result = MatrixSpiral.edgeItemsClockwise(matrix);
+        List<Integer> result = MatrixSpiral.edgeItemsClockwise(matrix);
 
         assertThat(result).containsExactly(1, 2, 3, 4);
     }
 
     @Test
     public void edgeitemsOf_SingleColumn2ElementsTest() {
-        Integer[][] matrix = new Integer[][]{
-            new Integer[]{1},
-            new Integer[]{2}
-        };
+        List<List<Integer>> matrix = Arrays.asList(
+                Arrays.asList(1),
+                Arrays.asList(2)
+        );
 
-        Integer[] result = MatrixSpiral.edgeItemsClockwise(matrix);
+        List<Integer> result = MatrixSpiral.edgeItemsClockwise(matrix);
 
         assertThat(result).containsExactly(1, 2);
     }
 
     @Test
     public void edgeitemsOf_SingleColumnMultipleElementsTest() {
-        Integer[][] matrix = new Integer[][]{
-            new Integer[]{1},
-            new Integer[]{2},
-            new Integer[]{3}
-        };
+        List<List<Integer>> matrix = Arrays.asList(
+                Arrays.asList(1),
+                Arrays.asList(2),
+                Arrays.asList(3)
+        );
 
-        Integer[] result = MatrixSpiral.edgeItemsClockwise(matrix);
+        List<Integer> result = MatrixSpiral.edgeItemsClockwise(matrix);
 
         assertThat(result).containsExactly(1, 2, 3);
     }
 
     @Test
     public void edgeitemsOf_SingleColumnMultipleElementsTest2() {
-        Integer[][] matrix = new Integer[][]{
-            new Integer[]{1},
-            new Integer[]{2},
-            new Integer[]{3},
-            new Integer[]{4}
-        };
+        List<List<Integer>> matrix = Arrays.asList(
+                Arrays.asList(1),
+                Arrays.asList(2),
+                Arrays.asList(3),
+                Arrays.asList(4)
+        );
 
-        Integer[] result = MatrixSpiral.edgeItemsClockwise(matrix);
+        List<Integer> result = MatrixSpiral.edgeItemsClockwise(matrix);
 
         assertThat(result).containsExactly(1, 2, 3, 4);
     }
 
     @Test
     public void edgeitemsOf_2by3ElementsTest() {
-        Integer[][] matrix = new Integer[][]{
-            new Integer[]{1, 2, 3},
-            new Integer[]{4, 5, 6}
-        };
+        List<List<Integer>> matrix = Arrays.asList(
+                Arrays.asList(1, 2, 3),
+                Arrays.asList(4, 5, 6)
+        );
 
-        Integer[] result = MatrixSpiral.edgeItemsClockwise(matrix);
+        List<Integer> result = MatrixSpiral.edgeItemsClockwise(matrix);
 
         assertThat(result).containsExactly(1, 2, 3, 6, 5, 4);
     }
 
     @Test
     public void edgeitemsOf_3by2ElementsTest() {
-        Integer[][] matrix = new Integer[][]{
-            new Integer[]{1, 2},
-            new Integer[]{3, 4},
-            new Integer[]{5, 6}
-        };
+        List<List<Integer>> matrix = Arrays.asList(
+                Arrays.asList(1, 2),
+                Arrays.asList(3, 4),
+                Arrays.asList(5, 6)
+        );
 
-        Integer[] result = MatrixSpiral.edgeItemsClockwise(matrix);
+        List<Integer> result = MatrixSpiral.edgeItemsClockwise(matrix);
 
         assertThat(result).containsExactly(1, 2, 4, 6, 5, 3);
     }
 
     @Test
     public void edgeitemsOf_3by3ElementsTest() {
-        Integer[][] matrix = new Integer[][]{
-            new Integer[]{1, 2, 3},
-            new Integer[]{4, 5, 6},
-            new Integer[]{7, 8, 9}
-        };
+        List<List<Integer>> matrix = Arrays.asList(
+                Arrays.asList(1, 2, 3),
+                Arrays.asList(4, 5, 6),
+                Arrays.asList(7, 8, 9)
+        );
 
-        Integer[] result = MatrixSpiral.edgeItemsClockwise(matrix);
+        List<Integer> result = MatrixSpiral.edgeItemsClockwise(matrix);
 
         assertThat(result).containsExactly(1, 2, 3, 6, 9, 8, 7, 4);
     }
 
     @Test
     public void edgeitemsOf_4by5ElementsTest() {
-        Integer[][] matrix = new Integer[][]{
-            new Integer[]{1, 2, 3, 4, 5},
-            new Integer[]{6, 7, 8, 9, 10},
-            new Integer[]{11, 12, 13, 14, 15},
-            new Integer[]{16, 17, 18, 19, 20}
-        };
+        List<List<Integer>> matrix = Arrays.asList(
+                Arrays.asList(1, 2, 3, 4, 5),
+                Arrays.asList(6, 7, 8, 9, 10),
+                Arrays.asList(11, 12, 13, 14, 15),
+                Arrays.asList(16, 17, 18, 19, 20)
+        );
 
-        Integer[] result = MatrixSpiral.edgeItemsClockwise(matrix);
+        List<Integer> result = MatrixSpiral.edgeItemsClockwise(matrix);
 
         assertThat(result).containsExactly(1, 2, 3, 4, 5, 10, 15, 20, 19, 18, 17, 16, 11, 6);
     }

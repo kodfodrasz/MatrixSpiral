@@ -15,27 +15,27 @@ import java.util.stream.Stream;
 public class Program {
 
     public static void main(String[] args) {
-        Integer[][] matrix = readMatrix(""
+        List<List<Integer>> matrix = readMatrix(""
                 + "1 2 3\n"
                 + "8 9 4\n"
                 + "7 6 5\n");
-        Integer[] serialized = MatrixSpiral.spiral(matrix);
-        printArray(serialized);
+        List<Integer> serialized = MatrixSpiral.spiral(matrix);
+        printList(serialized);
     }
 
-    public static Integer[][] readMatrixFromStdin() {
+    public static List<List<Integer>> readMatrixFromStdin() {
         return readMatrix(System.in);
     }
 
-    public static Integer[][] readMatrix(String str) {
+    public static List<List<Integer>> readMatrix(String str) {
         return readMatrix(new ByteArrayInputStream(str.getBytes())); // this is AIDS (StringInputStream is @Deprecated, because buggy. Don't fix it... 'cause of compat...)
     }
 
-    public static Integer[][] readMatrix(InputStream in) {
-        Integer[][] matrix;
+    public static List<List<Integer>> readMatrix(InputStream in) {
+        List<List<Integer>> matrix;
         try (InputStreamReader reader = new InputStreamReader(in)) {
             try (BufferedReader br = new BufferedReader(reader)) {
-                List<Integer[]> lines = new ArrayList<>();
+                List<List<Integer>> lines = new ArrayList<>();
 
                 String line;
                 while ((line = br.readLine()) != null ) {
@@ -44,13 +44,13 @@ public class Program {
                     }
                     
                     String[] tokens = line.split("[ \\t]+");
-                    Integer[] intline = Stream.of(tokens)
+                    List<Integer> intline = Stream.of(tokens)
                             .map(p -> p.trim())
                             .map(p -> Integer.parseInt(p)) // this is AIDS
-                            .toArray(Integer[]::new);
+                            .collect(Collectors.toList());
                     lines.add(intline);
                 }
-                matrix = lines.toArray(new Integer[0][0]);
+                matrix = lines;
             }
         } catch (IOException ex) {
             Logger.getLogger(MatrixSpiral.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,8 +59,8 @@ public class Program {
         return matrix;
     }
 
-    public static <T> void printArray(T[] array) {
-        List<String> ns = Stream.of(array) // this is AIDS
+    public static <T> void printList(List<T> list) {
+        List<String> ns = list.stream() // this is AIDS
                 .map(i -> i.toString()) // this is AIDS
                 .collect(Collectors.toList());
         System.out.println(String.join(" ", ns));
